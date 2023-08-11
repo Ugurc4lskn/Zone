@@ -1,0 +1,81 @@
+{% extends "baseindex.html" %}
+
+{% block mainarea %}
+
+
+
+
+{% for detail in result %}
+<div class="card radius-10">
+ 
+  <div class="card-header py-3">
+    <div class="row row-cols-1 row-cols-lg-2">
+      <div class="col">
+       <div class="">
+        
+         <i class="bi bi-person-circle"></i><strong class=" mb-0 customer-name fw-bold text-inverse"> Attacker name : </strong>
+         {% if detail.status == True %}
+         <span style="" class="username lable-table  font-text2 fw-bold ">{{detail.username|escape}}</span>
+         
+         {% else %}
+         <span style="color:{{detail.rank_color}}" class="lable-table  font-text2 fw-bold ">{{detail.username|escape}}</span>    
+         {% endif %}
+         
+         
+         <br><br>
+
+         <i class="bi bi-browser-chrome"></i>
+         <strong class=" mb-0 customer-name fw-bold text-inverse"> Domain   name : {{detail.domain_name}}
+             </strong><br><br>
+            
+         <i class="bi bi-activity"></i>
+         <strong class="text-inverse mb-0 customer-name fw-bold"> Domain   status : </strong>
+
+               {% if detail.domainstatus == True %}
+                  <td><span class="lable-table bg-success-subtle text-success rounded border border-success-subtle font-text2 fw-bold">Special</span></td>
+               {% elif detail.domainstatus == False %}
+                  <td><span class="lable-table bg-danger-subtle text-danger rounded border border-danger-subtle font-text2 fw-bold">Normal</span></td>
+               {% else %}
+                <p></p>
+               {% endif %}
+            
+            <br><br>    
+        
+        </div>
+      </div>
+      <div class="col">
+       <div class="">
+         <i class="bi bi-window-fullscreen"></i>
+         <strong class="text-inverse mb-0 customer-name fw-bold text-inverse"> Web url address : </strong> <a href="{{detail.site_urls}}">{{detail.site_urls}}</a><br><br>
+
+         <i class="bi bi-geo-alt-fill"></i> <strong class="text-inverse mb-0 customer-name fw-bold text-inverse">Ip address  : </strong>{{detail.domain_ip}}<br><br>
+         
+         <i class="bi bi-flag"></i> <strong class="text-inverse mb-0 customer-name fw-bold text-inverse"> Country  :  </strong><img src="https://flagcdn.com/16x12/{{detail.country}}.png" alt="">
+          <span style="color:#A5C0DD;">{{detail.country|upper}}</span><br><br>   
+        </div>
+     </div>
+  
+    </div>
+  </div>
+ <div class="card-body">
+   <div class="table-responsive">
+     <table class="table table-invoice">
+        <thead>
+           <tr>
+              <th>Zone Content</th>
+           </tr>
+        </thead>
+        <tbody>
+           <tr>
+              <td>
+               <iframe srcdoc="{{ detail.contents }}" width="100%" height="800px"></iframe>
+              </td>
+        </tbody>
+     </table>
+  </div>
+
+ </div>
+</div>
+{% endfor %}
+
+{% endblock mainarea %}

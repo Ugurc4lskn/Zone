@@ -1,0 +1,81 @@
+{% extends "baseindex.html" %}
+
+{% load static %}
+{% block mainarea %}
+
+<table class="table align-middle">
+  <thead class="table-light">
+    <tr>
+      <th>Id</th>
+      <th>Hacker</th>
+      <th>Join Date</th>
+      <th>User Status</th>
+      <th>User Rank</th>
+    </tr>
+   </thead>
+   <tbody>
+
+    {% for zone in users  %}
+    
+    {% autoescape off %}
+   
+    <tr>
+      
+        <td>
+        
+            <a href="javascript:;">#{{zone.ids|escape}}</a>
+           </td>
+        <td>
+          {% if zone.status_ == True %}
+          <span style="" class="username lable-table  font-text2 fw-bold ">{{zone.username|escape}}</span>
+          
+          {% else %}
+          <span style="color:{{zone.rank_color}}" class="lable-table  font-text2 fw-bold ">{{zone.username|escape}}</span>    
+          {% endif %}
+           
+          
+        </td>
+      <td>
+       <a class="d-flex align-items-center gap-3" href="javascript:;">
+         <p class="mb-0 customer-name fw-bold ">{{zone.joinDate|date:"m/d/Y  H:i"|escape}}</p>
+       </a>
+      </td>
+      <td>
+        {% if zone.status_ == True %}
+          
+        <span><p class="mb-0 customer-name fw-bold  text-primary" >Verified Account<img src="{% static 'assets/images/verified.png' %}" alt="" width="20px" style="margin-left:20px"></p>
+        {% else %}
+        <p class="mb-0 customer-name fw-bold username-text">Standard Member</p>
+        {% endif %}
+          
+        
+       </td>
+
+       <td><span class="lable-table  font-text2 fw-bold" style="color:{{zone.rank_color|escape}}">{{zone.rank_name|escape}}</span></td>
+       
+
+    </tr>
+    {% endautoescape %}
+    {% endfor %}
+
+   </tbody>
+ </table>
+ <div>
+  <span>
+    {% if users.has_previous %}
+      <a href="?page={{ users.previous_page_number|escape }}" class="btn btn-outline-primary">Previous</a>
+    {% endif %}
+    <span class="btn btn-outline-primary">
+       {{ users.number }} {{ page_obj.paginator.num_pages|escape }}
+    </span>
+    {% if users.has_next %}
+      <a href="?page={{ users.next_page_number|escape }}" class="btn btn-outline-primary">Next</a>
+    {% endif %}
+  </span>
+</div>
+ 
+
+{% endblock mainarea %}
+
+
+

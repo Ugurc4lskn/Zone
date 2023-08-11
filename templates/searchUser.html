@@ -1,0 +1,128 @@
+{% extends 'baseindex.html' %}
+
+{% load static %}
+{% block mainarea %}
+  <form action="{% url 'search' %}", method="POST">
+
+  {% csrf_token %}
+
+  {% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+          {% if message.tags == "error" %}
+          <div class="alert border-0 bg-danger-subtle alert-dismissible fade show">
+            <div class="d-flex align-items-center">
+              <div class="text-danger"> {{message|escape}}</div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          <script>
+            setTimeout(function() {
+              location.reload();
+            }, 1500);
+          </script>
+
+          {% endif %}
+      {% endfor %}
+  </ul>
+{% endif %}
+  <div class="card-body">
+    <div class="row row-cols-1 g-3 row-cols-lg-auto align-items-center">
+       <div class="col">
+        {{form.search}}
+     </div>
+
+     <div class="col">
+      <button type="submit" class="btn btn-primary px-4">Search</button>
+     </div>
+    </div>
+  </div>
+</form>
+
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.25/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.25/datatables.min.js"></script>
+
+
+
+
+
+{% if status %}
+
+
+
+<table class="table align-middle">
+  <thead class="table-light">
+    <tr>
+  
+      <th>Zone Id</th>
+      <th>Attacker</th>
+      <th>Url</th>
+      <th>Country</th>
+      <th>User Status</th>
+      <th>Status</th>
+      <th>Ip Address</th>
+      <th>Date</th>
+      <th>Details</th>
+    </tr>
+   </thead>
+   <tbody>
+    
+    {% for zons in zone %}
+   
+    <tr>
+      <td>
+       <a href="javascript:;">#{{zons.id_|escape}}</a>
+      </td>
+     
+        <td> 
+
+          {% if zons.status == True %}
+            <span class="username">{{zons.username|escape}}</span>
+          {% else %}
+            <span style="color:{{zons.rank_color}}">{{zons.username|escape}}</span>
+          {% endif %}    
+        
+        </td>
+      <td>
+       <a class="d-flex align-items-center gap-3" href="javascript:;">
+         <p class="mb-0 customer-name fw-bold"><a href="{{zons.domain_name|escape}}" target="_blank">{{zons.domain_name|slice:":23"|escape}}...</a></p>
+       </a>
+      </td>
+      <td>
+        
+        <img src="https://flagcdn.com/16x12/{{zons.country}}.png" alt=""> <span style="color:#A5C0DD;">{{zons.country|upper|escape}}</span>
+      </td>
+     
+
+      <td><span class="lable-table  font-text2 fw-bold" style="color:{{zons.rank_color}}">{{zons.rank_name|escape}}</span></td>
+
+
+      {% if zons.domainstatus == True %}
+      <td><span class="lable-table bg-success-subtle text-success rounded border border-success-subtle font-text2 fw-bold">Special</span></td>
+      {% else %}
+      <td><span class="lable-table bg-danger-subtle text-danger rounded border border-danger-subtle font-text2 fw-bold">Normal</span></td>
+      {% endif %}
+      
+      
+      <td> {{zons.domain_ip|escape}}</td>
+      <td> {{zons.date|date:"m/d/Y  H:i"|escape}}</td>
+      <td><a href="{% url 'details' id=zons.id_ %}">Details</a></td>
+    </tr>
+    
+    {% endfor %}
+
+   </tbody>
+ </table>
+ <div>
+
+ <span>
+
+  <!--Pagination-->
+ </span>
+</div>
+
+{% endif %}
+
+{% endblock mainarea %}
+

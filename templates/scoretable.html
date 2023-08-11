@@ -1,0 +1,84 @@
+{% extends "baseindex.html" %}
+
+
+{% load static %}
+{% block mainarea %}
+
+<table class="table align-middle">
+  <thead class="table-light">
+    <tr>
+      <th></th>
+      <th>Attacker</th>
+      <th>Point</th>
+      <th>User Status</th>
+      <th>User Rank</th>
+      <th>Join Date</th>
+    </tr>
+   </thead>
+   <tbody>
+
+    {% for zone in score  %}
+    <tr>
+      
+      <td>
+        {% if forloop.counter == 1 and score.has_previous == False %}
+        <img src="{% static 'assets/images/1..png' %}" width="30px "alt="icon">
+        {% elif forloop.counter == 2 and score.has_previous == False %}
+        <img src="{% static 'assets/images/2..png' %}" width="30px "alt="icon">
+        {% elif forloop.counter == 3 and score.has_previous == False %}
+        <img src="{% static 'assets/images/3..png' %}" width="30px "alt="icon">
+        
+        {% else %}
+        <img src="{% static 'assets/images/user.png' %}" width="34px "alt="icon">
+   
+      {% endif %}
+      </td>
+        <td> 
+          {% if zone.status_ == True %}
+          <span class="username">{{zone.username|escape}} </span>
+          {% else %}
+          <span style="color:{{zone.rank_color}}">{{zone.username|escape}}</span>
+          {% endif %}
+        
+        
+        </td>
+      <td>
+         <p class="mb-0 customer-name fw-bold">{{zone.totalPoint}}</p>
+      </td>
+      <td>
+        {% if zone.status_ == True %}
+          
+        <span><p class="mb-0 customer-name fw-bold  text-primary" >Verified Account<img src="{% static 'assets/images/verified.png' %}" alt="" width="20px" style="margin-left:20px"></p>
+        {% else %}
+        <p class="mb-0 customer-name fw-bold username-text">Standard Member</p>
+        {% endif %}
+     </td>
+     
+     <td><span class="lable-table  font-text2 fw-bold" style="color:{{zone.rank_color}}">{{zone.rank_name|escape}}</span></td>
+ 
+   <td>
+    <p class="mb-0 customer-name fw-bold">{{zone.joinDate|date:"m/d/Y  H:i"|escape }}</p>
+ </td>
+    </tr>
+    
+    {% endfor %}
+
+   </tbody>
+ </table>
+ <div>
+  <span>
+    {% if score.has_previous %}
+      <a href="?page={{ score.previous_page_number|escape }}" class="btn btn-outline-primary">Previous</a>
+    {% endif %}
+    <span class="btn btn-outline-primary">
+       {{ score.number }} {{ page_obj.paginator.num_pages|escape }}
+    </span>
+    {% if score.has_next %}
+      <a href="?page={{ score.next_page_number|escape }}" class="btn btn-outline-primary">Next</a>
+    {% endif %}
+  </span>
+</div>
+{% endblock mainarea %}
+
+
+

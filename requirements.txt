@@ -1,0 +1,6 @@
+lxml
+django-cors-headers == 4.2.0
+Django == 4.2.4
+beautifulsoup4 == 4.12.2
+requests == 2.31.0
+tldextract == 3.4.4

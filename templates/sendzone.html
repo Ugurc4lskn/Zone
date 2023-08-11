@@ -1,0 +1,63 @@
+{% extends 'baseindex.html' %}
+
+{% block mainarea %}
+  <form action="{% url 'zone' %}", method="POST">
+
+  {% csrf_token %}
+  {% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+          {% if message.tags == "success" %}
+          <div class="alert border-0 bg-success-subtle alert-dismissible fade show">
+            <div class="d-flex align-items-center">
+              <div class="text-success"> {{message}}</div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          <script>
+            setTimeout(function() {
+              location.reload();
+            }, 2000);
+          </script>
+          {% else %}
+          <div class="alert border-0 bg-danger-subtle alert-dismissible fade show">
+            <div class="d-flex align-items-center">
+              <div class="text-danger"> {{message}}</div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          <script>
+            setTimeout(function() {
+              location.reload();
+            }, 4000);
+           
+          </script>
+          {% endif %}
+      {% endfor %}
+  </ul>
+{% endif %}
+  <div class="card-body">
+    <div class="row row-cols-1 g-3 row-cols-lg-auto align-items-center">
+       <div class="col">
+        <input type="text" class="form-control" placeholder="Name" value="{{user.username}}" readonly >
+       </div>
+       <div class="col">
+        {{form.zone_main}}
+     </div>
+     <br>
+     <div class="input-group" id="show_hide_password">
+         {{form.captcha}}
+         
+        
+     </div>
+
+     <div class="col">
+      <br><br>
+      <button type="submit" class="btn btn-primary px-4">Submit</button>
+     </div>
+    </div>
+  </div>
+</form>
+
+
+{% endblock mainarea %}

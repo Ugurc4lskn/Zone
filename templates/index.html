@@ -1,0 +1,93 @@
+{% extends 'baseindex.html' %}
+{% block mainarea %}
+
+{% load static %}
+
+
+
+<table class="table align-middle">
+  <thead class="table-light">
+    <tr>
+     
+      <th>Zone Id</th>
+      <th>Attacker</th>
+      <th>Url</th>
+      <th>Country</th>
+      <th>User Rank</th>
+      <th>Status</th>
+      <th>Ip Address</th>
+      <th>Date</th>
+      <th>Details</th>
+    </tr>
+   </thead>
+   <tbody>
+    
+    {% for zons in zone %}
+   
+    <tr>
+      <td>
+       <a href="{% url 'details' id=zons.id_ %}">#{{zons.id_|escape}}</a>
+      </td>
+  
+        <td>
+          {% if zons.status == True %}
+          <span style="" class="username fw-normal">{{zons.username|escape}}</span>
+          
+          {% else %}
+          <span style="color:{{zons.rank_color}};" class="fw-bold">{{zons.username|escape}}</span>    
+          {% endif %}
+          
+           
+          
+        </td>
+      <td>
+       <a class="d-flex align-items-center gap-3" href="javascript:;">
+         <p class="mb-0 customer-name fw-bold"><a href="{{zons.site|escape}}" target="_blank">{{zons.domain_name|slice:":23"}}...</a></p>
+       </a>
+      </td>
+      <td>
+        
+        <img src="https://flagcdn.com/16x12/{{zons.country}}.png" alt=""> <span style="color:#ece7e7ef;">{{zons.country|upper}}</span>
+      </td>
+      
+      <td><span class="lable-table  font-text2 fw-bold" style="color:{{zons.rank_color}}">{{zons.rank_name|escape}}</span></td>
+      
+      
+
+
+      {% if zons.domainstatus == True %}
+      <td><span class="lable-table bg-success-subtle text-success rounded border border-success-subtle font-text2 fw-bold">Special </span></td>
+      {% else %}
+      <td><span class="lable-table bg-danger-subtle text-danger rounded border border-danger-subtle font-text2 fw-bold">Normal</span></td>
+      {% endif %}
+      
+      
+      <td> {{zons.domain_ip}}</td>
+      <td> {{zons.date|date:"m/d/Y  H:i"|escape}}</td>
+      <td><a href="{% url 'details' id=zons.id_ %}">Details</a></td>
+    </tr>
+    
+    {% endfor %}
+
+   </tbody>
+ </table>
+ <div>
+  <span>
+    {% if zone.has_previous %}
+      <a href="?page={{ zone.previous_page_number }}" class="btn btn-outline-primary">Previous</a>
+    {% endif %}
+    <span class="btn btn-outline-primary">
+       {{ zone.number }} {{ page_obj.paginator.num_pages }}
+    </span>
+    {% if zone.has_next %}
+      <a href="?page={{ zone.next_page_number }}" class="btn btn-outline-primary">Next</a>
+    {% endif %}
+  </span>
+</div>
+
+</div>
+
+{% endblock mainarea %}
+
+
+
